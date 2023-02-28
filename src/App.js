@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import React from 'react';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import './App.css';
+import ErrorFallback from './layer/error_fallback/ErrorFallback';
+import ExpenseTracker from './layer/expense_tracker/ExpenseTracker';
+import Home from './layer/home/Home';
+import 'react-loading-skeleton/dist/skeleton.css'
+import { SkeletonTheme } from 'react-loading-skeleton';
+
+
+const route = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" errorElement={<ErrorFallback/>}>
+      <Route index element={<Home/>} />
+      <Route path="/expense-tracker" element={<ExpenseTracker/>} />
+    </Route>
+  )
+);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SkeletonTheme
+        baseColor="#777"
+        borderRadius="0.5rem"
+      >
+         <RouterProvider router={route}/>
+      </SkeletonTheme>
     </div>
   );
 }
